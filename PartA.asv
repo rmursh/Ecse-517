@@ -34,5 +34,11 @@ end
 figure;
 plot(Awaves(1:100:end,:)');
 grid on;
-title('Plot of every100th Aligned Waveforms');
+title('Plot of every 100th Aligned Waveforms');
 
+[coeff,score,latent,tsquared,explained,mu] = pca(Awaves);
+figure
+par = pareto(explained);
+title('Cumulative Variance for Each PC');
+
+prctile

@@ -38,5 +38,13 @@ title('Plot of every 100th Aligned Waveforms');
 
 [coeff,score,latent,tsquared,explained,mu] = pca(Awaves);
 figure
-pareto(explained);
+par = pareto(explained);
 title('Cumulative Variance for Each PC');
+
+edg=prctile(score(:,1:2),[0.1,99.9]);
+De=min(diff(edg))/30;
+e1{1}=[edg(1,1):De:edg(2,1)];
+e1{2}=[edg(1,2):De:edg(2,2)];
+hst=hist3(score(:,1:2),e1);
+Shand=pcolor(e1{1},e1{2},hst');
+set(Shand,'LineStyle','none');
