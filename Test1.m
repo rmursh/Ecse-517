@@ -1,0 +1,43 @@
+S1 = randn(1000,2);
+S2(1:1000,1) = S1(:,1);
+S2(1:1000, 2) = S1(:,1)+randn(1000,1);
+
+cv1= cov(S1);
+cv2 = cov(S2);
+
+[EVec, Eval] = eig(cv2);
+[EVecL, EvalL] = eigs(cv2, 1, 'LM');
+
+EvalSorted= sort(diag(Eval));
+PCnorm = zeros(size(EvalSorted));
+
+for i = 1:size(EvalSorted);
+    PCnorm(i) = EvalSorted(i)/sum(EvalSorted);
+end
+
+par = pareto(PCnorm, EvalSorted);
+title('Cumulative Explained Variance');
+xlabel('Eigenvalue');
+ylabel('Cumulative Variance');
+%plot(cumsum(diag(Eval))./sum(diag(Eval)));
+
+figure;
+
+sp1 = subplot(2,1,1);
+scatter(S1(:,1),S1(:,2),4);
+sp2 = subplot(2,1,2);
+scatter(S2(:,1),S2(:,2),4);
+hold on;
+quiver(0,0,-EVecL(1,1),-EVecL(2,1), 5,'color', 'r');
+hold on;
+quiver(0,0,EVecL(1,1),EVecL(2,1), 5, 'color', 'r');
+title(sp1, 'Random Generated Uncorrelated Dataset');
+xlabel(sp1,'1st Dimension');
+ylabel(sp1, '2nd Dimension');
+title(sp2, 'Random Generated Correlated Dataset');
+xlabel(sp2,'1st Dimension');
+ylabel(sp2, '2nd Dimension');
+
+
+
+
