@@ -1,9 +1,9 @@
 %Plot the initial Waveforms
-figure;
-Waves = Data1.Waves;
-plot(Waves(1:100:end,:)');
-grid on;
-title('Plot of every 100th Original Waveforms');
+% figure;
+% Waves = Data1.Waves;
+% plot(Waves(1:100:end,:)');
+% grid on;
+% title('Plot of every 100th Original Waveforms');
 
 %Find the mode of the minimum of all waves
 sizeOfData = size(Waves, 1);
@@ -31,14 +31,32 @@ for i = 1:sizeOfData
     end
 end
 
-figure;
-plot(Awaves(1:100:end,:)');
-grid on;
-title('Plot of every 100th Aligned Waveforms');
+% figure;
+% plot(Awaves(1:100:end,:)');
+% grid on;
+% title('Plot of every 100th Aligned Waveforms');
 
-[coeff,score,latent,tsquared,explained,mu] = pca(Awaves);
-figure
-par = pareto(explained);
-title('Cumulative Variance for Each PC');
+% [coeff,score,latent,tsquared,explained,mu] = pca(Awaves);
+% figure
+% par = pareto(explained);
+% title('Cumulative Variance for Each PC');
 
-prctile
+% edg=prctile(score(:,1:2),[0.1,99.9]);
+% De=min(diff(edg))/30;
+% e1{1}=[edg(1,1):De:edg(2,1)];
+% e1{2}=[edg(1,2):De:edg(2,2)];
+% hst=hist3(score(:,1:2),e1);
+% Shand=pcolor(e1{1},e1{2},hst');
+% set(Shand,'LineStyle','none');
+rng default  % For reproducibility
+load Data1
+size(Waves)
+
+clusteridx = kmeans(X, 4);
+% 
+% figure
+% [silh3,h] = silhouette(,idx3,'cityblock');
+% h = gca;
+% h.Children.EdgeColor = [.8 .8 1];
+% xlabel 'Silhouette Value'
+% ylabel 'Cluster'

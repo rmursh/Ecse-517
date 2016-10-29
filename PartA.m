@@ -41,6 +41,7 @@ figure
 par = pareto(explained);
 title('Cumulative Variance for Each PC');
 
+figure
 edg=prctile(score(:,1:2),[0.1,99.9]);
 De=min(diff(edg))/30;
 e1{1}=[edg(1,1):De:edg(2,1)];
@@ -48,3 +49,24 @@ e1{2}=[edg(1,2):De:edg(2,2)];
 hst=hist3(score(:,1:2),e1);
 Shand=pcolor(e1{1},e1{2},hst');
 set(Shand,'LineStyle','none');
+
+rng default  % For reproducibility
+
+
+clusteridx = kmeans(Waves, 3);
+% 
+figure
+[silh3,h] = silhouette(Waves,clusteridx);
+h = gca;
+h.Children.EdgeColor = [.8 .8 1];
+xlabel 'Silhouette Value'
+ylabel 'Cluster'
+
+Tw = Data1.Tw;
+clusteridx = kmeans(Tw, 3);
+figure
+[silh4,q] = silhouette(Tw,clusteridx);
+h = gca;
+h.Children.EdgeColor = [.8 .8 1];
+xlabel 'Silhouette Value'
+ylabel 'Cluster'
