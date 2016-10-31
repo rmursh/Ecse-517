@@ -53,20 +53,80 @@ set(Shand,'LineStyle','none');
 rng default  % For reproducibility
 
 
-clusteridx = kmeans(Waves, 3);
+[clusteridxWave] = kmeans(Waves, 3);
 % 
 figure
-[silh3,h] = silhouette(Waves,clusteridx);
+[silh3,h] = silhouette(Waves,clusteridxWave);
 h = gca;
 h.Children.EdgeColor = [.8 .8 1];
 xlabel 'Silhouette Value'
 ylabel 'Cluster'
 
 Tw = Data1.Tw;
-clusteridx = kmeans(Tw, 3);
+T0 = Data1.T0;
+T19 = Data1.T19;
+[clusteridxSpike] = kmeans(Tw, 3);
 figure
-[silh4,q] = silhouette(Tw,clusteridx);
+[silh4,q] = silhouette(Tw,clusteridxSpike);
 h = gca;
 h.Children.EdgeColor = [.8 .8 1];
 xlabel 'Silhouette Value'
 ylabel 'Cluster'
+
+unit3Ts1 =[];
+unit2Ts1 =[];
+unit1Ts1 =[];
+
+for i = 1: length(clusteridxSpike)
+ if clusteridxSpike(i) == 3
+   unit3Ts1 = [unit3Ts1, Tw(i)];    
+ elseif clusteridxSpike(i) == 2
+   unit2Ts1 = [unit2Ts1, Tw(i)];  
+ else
+   unit1Ts1 = [unit1Ts1, Tw(i)];
+ end 
+end
+
+unit3Ts1 = transpose(unit3Ts1);
+unit2Ts1 = transpose(unit2Ts1);
+unit1Ts1 = transpose(unit1Ts1);
+
+%spkTrials1 
+for i = 1:length(T0)
+  spkInTrial = [];
+  tsByTrial =[];
+  for j = 1:length(unit1Ts1)
+    if (unit1Ts1(j) > T0(i) && unit1Ts1(j) < T19(i))
+      spkInTrial = [spkInTrial, j]; 
+    end
+  end
+  spkInTrial = spkInTrial';
+  for j = 1:length(spkInTrial)
+      tsByTrial = [tsByTrial,unit1Ts1(spkInTrial(j))]; 
+  end
+  tsByTrial =spkInTrial';
+  if ~isempty(tsByTrial)
+  spkTrials1(i, 1:length(spkInTrial)) = tsByTrial - tsByTrial(1);
+  end
+end
+
+%spkTrials2 
+for i = 1:length(T0)
+  spkInTrial = [];
+  tsByTrial =[];
+  for j = 1:length(unit2Ts1)
+    if (unit2Ts1(j) > T0(i) && unit2Ts1(j) < T19(i))
+      spkInTrial = [spkInTrial, j]; 
+    end
+  end
+  spkInTrial = spkInTrial';
+  for j = 1:length(spkInTrial)
+      tsByTrial = [tsByTrial,unit2Ts1(spkInTrial(j))]; 
+  end
+  tsByTrial =tsByTrial';
+  if ~isempty(tsByTrial)
+  spkTrials2(i, 1:length(spkInTrial)) = tsByTrial - tsByTrial(1);
+  end
+end
+
+
