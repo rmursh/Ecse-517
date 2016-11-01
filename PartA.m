@@ -53,10 +53,10 @@ set(Shand,'LineStyle','none');
 rng default  % For reproducibility
 
 
-[clusteridxWave] = kmeans(Waves, 3);
+[clusteridxWave] = kmeans(Awaves, 4);
 % 
 figure
-[silh3,h] = silhouette(Waves,clusteridxWave);
+[silh3,h] = silhouette(Awaves,clusteridxWave);
 h = gca;
 h.Children.EdgeColor = [.8 .8 1];
 xlabel 'Silhouette Value'
@@ -65,7 +65,7 @@ ylabel 'Cluster'
 Tw = Data1.Tw;
 T0 = Data1.T0;
 T19 = Data1.T19;
-[clusteridxSpike] = kmeans(Tw, 3);
+[clusteridxSpike] = kmeans(Tw, 4);
 figure
 [silh4,q] = silhouette(Tw,clusteridxSpike);
 h = gca;
@@ -73,6 +73,7 @@ h.Children.EdgeColor = [.8 .8 1];
 xlabel 'Silhouette Value'
 ylabel 'Cluster'
 
+unit4Ts1 =[];
 unit3Ts1 =[];
 unit2Ts1 =[];
 unit1Ts1 =[];
@@ -81,12 +82,15 @@ for i = 1: length(clusteridxSpike)
  if clusteridxSpike(i) == 3
    unit3Ts1 = [unit3Ts1, Tw(i)];    
  elseif clusteridxSpike(i) == 2
-   unit2Ts1 = [unit2Ts1, Tw(i)];  
+   unit2Ts1 = [unit2Ts1, Tw(i)]; 
+ elseif clusteridxSpike(i) == 4
+   unit4Ts1 = [unit4Ts1, Tw(i)];
  else
    unit1Ts1 = [unit1Ts1, Tw(i)];
  end 
 end
 
+unit4Ts1 = unit4Ts1';
 unit3Ts1 = transpose(unit3Ts1);
 unit2Ts1 = transpose(unit2Ts1);
 unit1Ts1 = transpose(unit1Ts1);
@@ -128,5 +132,44 @@ for i = 1:length(T0)
   spkTrials2(i, 1:length(spkInTrial)) = tsByTrial - tsByTrial(1);
   end
 end
+
+%spkTrials3 
+for i = 1:length(T0)
+  spkInTrial = [];
+  tsByTrial =[];
+  for j = 1:length(unit3Ts1)
+    if (unit3Ts1(j) > T0(i) && unit3Ts1(j) < T19(i))
+      spkInTrial = [spkInTrial, j]; 
+    end
+  end
+  spkInTrial = spkInTrial';
+  for j = 1:length(spkInTrial)
+      tsByTrial = [tsByTrial,unit3Ts1(spkInTrial(j))]; 
+  end
+  tsByTrial =tsByTrial';
+  if ~isempty(tsByTrial)
+  spkTrials3(i, 1:length(spkInTrial)) = tsByTrial - tsByTrial(1);
+  end
+end
+
+%spkTrials4 
+for i = 1:length(T0)
+  spkInTrial = [];
+  tsByTrial =[];
+  for j = 1:length(unit3Ts1)
+    if (unit4Ts1(j) > T0(i) && unit4Ts1(j) < T19(i))
+      spkInTrial = [spkInTrial, j]; 
+    end
+  end
+  spkInTrial = spkInTrial';
+  for j = 1:length(spkInTrial)
+      tsByTrial = [tsByTrial,unit4Ts1(spkInTrial(j))]; 
+  end
+  tsByTrial =tsByTrial';
+  if ~isempty(tsByTrial)
+  spkTrials4(i, 1:length(spkInTrial)) = tsByTrial - tsByTrial(1);
+  end
+end
+
 
 
