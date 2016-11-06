@@ -108,7 +108,7 @@ for i = 1:length(T0)
   for j = 1:length(spkInTrial)
       tsByTrial = [tsByTrial,unit1Ts1(spkInTrial(j))]; 
   end
-  tsByTrial =spkInTrial';
+  tsByTrial =tsByTrial';
   if ~isempty(tsByTrial)
   spkTrials1(i, 1:length(spkInTrial)) = tsByTrial - tsByTrial(1);
   end
