@@ -127,3 +127,11 @@ figure
 errorbar(FRMem4, SE4);
 figure
 errorbar(FRMemU, SEU);
+
+[p,tbl,stats] = anova1(FRMem1,Data1.Hang, 'off');
+[p,tbl,stats] = anova1(FRMem2,Data1.Hang, 'off');
+[p,tbl,stats] = anova1(FRMem3,Data1.Hang, 'off');
+[p,tbl,stats] = anova1(FRMem4,Data1.Hang, 'off');
+[p,tbl,stats] = anova1(FRMemU,Data1.Hang, 'off');
+
+multcompare(stats);
