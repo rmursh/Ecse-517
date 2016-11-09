@@ -85,7 +85,7 @@ end
 for i = 1:length(T0)
   spkInTrial = [];
   tsByTrial =[];
-  for j = 1:length(unit3Ts1)
+  for j = 1:length(unit4Ts1)
     if (unit4Ts1(j) > T0(i) && unit4Ts1(j) < T19(i))
       spkInTrial = [spkInTrial, j]; 
     end
@@ -213,7 +213,7 @@ end
 SEU = SEU';
 FRMemU = FRMemU';
 
-
+%Plot tuing curves
 % figure
 % errorbar(FRMem1, SE1);
 % figure
@@ -225,18 +225,24 @@ FRMemU = FRMemU';
 % figure
 % errorbar(FRMemU, SEU);
 
-[p,tbl,stats1] = anova1(FRMem1,Data1.Hang, 'off');
-figure
-multcompare(stats1);
-[p,tbl,stats2] = anova1(FRMem2,Data1.Hang, 'off');
-figure
-multcompare(stats2);
-[p,tbl,stats3] = anova1(FRMem3,Data1.Hang, 'off');
-figure
-multcompare(stats3);
-[p,tbl,stats4] = anova1(FRMem4,Data1.Hang, 'off');
-figure
-multcompare(stats4);
-[p,tbl,statsu] = anova1(FRMemU,Data1.Hang, 'off');
-figure
-multcompare(statsu);
+%Test using anova
+% [p,tbl,stats1] = anova1(FRMem1,Data1.Hang, 'off');
+% figure
+% multcompare(stats1);
+% [p,tbl,stats2] = anova1(FRMem2,Data1.Hang, 'off');
+% figure
+% multcompare(stats2);
+% [p,tbl,stats3] = anova1(FRMem3,Data1.Hang, 'off');
+% figure
+% multcompare(stats3);
+% [p,tbl,stats4] = anova1(FRMem4,Data1.Hang, 'off');
+% figure
+% multcompare(stats4);
+% [p,tbl,statsu] = anova1(FRMemU,Data1.Hang, 'off');
+% figure
+% multcompare(statsu);
+
+% x = [-20:.1:20];
+% kernel = normpdf(x,0,20);
+% figure
+% plot(kernel);
