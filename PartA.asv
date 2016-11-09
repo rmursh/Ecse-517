@@ -171,27 +171,21 @@ for i = 1:length(T0)
   end
 end
 
-%spkTrialsUnsorted 
-for i = 1:length(T0)
-  spkInTrial = [];
-  tsByTrial =[];
-  for j = 1:length(Tw)
-    if (Tw(j) > T0(i) && Tw(j) < T19(i))
-      spkInTrial = [spkInTrial, j]; 
+Tmem1 = Waves.Tmem1;
+Tmem2 = Waves.Tmem2;
+
+FRMem1 = [];
+for i = 1 : Tmem1.length()
+    sum = 0;
+    count = 0;
+    for j = 1: unit1Ts1.length()
+     if (unit1Ts1(j)> Tmem1(i)) && (unit1Ts1(j) < Tmem2(i))
+       count = count + 1;
+     end
     end
-  end
-  spkInTrial = spkInTrial';
-  for j = 1:length(spkInTrial)
-      tsByTrial = [tsByTrial,Tw(spkInTrial(j))]; 
-  end
-  tsByTrial =tsByTrial';
-  if ~isempty(tsByTrial)
-  spkTrialsU(i, 1:length(spkInTrial)) = tsByTrial - tsByTrial(1);
-  end
+    firingRate = count / (Tmem2(i)- Tmem1(i));
+    FRMem1 = [FRMem1,firingRate ];
 end
-
-
-
 
 
 
